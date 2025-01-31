@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Setup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://media.istockphoto.com/id/1601044423/vector/business-chatbot-programming-development-robot-chatbot-holds-chat-bubble-in-hand-online.jpg?s=612x612&w=0&k=20&c=LKp4DpV2X_ruq_2GdkrUdTy9WosHs73LWIm9WhmRadI=');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 20px;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2); /* Glass effect */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin: 20px auto;
+            width: 50%;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Form Inputs */
+        input, textarea, button {
+            width: 80%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+            padding: 15px 20px;
+            transition: background-color 0.3s;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .input-container {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .input-container label {
+            display: block;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-container input, .input-container textarea {
+            width: 90%;
+            padding: 12px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.4);
+            color: #000000;
+        }
+
+        .scraping-progress ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .scraping-progress li {
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .scraping-progress .scraped {
+            background-color: #28a745;
+        }
+
+        .scraping-progress .pending {
+            background-color: #ff9900;
+        }
+
+        /* Chatbot Interface */
+        .chatbox {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 15px;
+            display: none;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .chatbox-header {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .chatbox-messages {
+            height: 250px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            background: #f8f8f8;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .chatbox-messages .message {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 10px;
+            background-color: #f4f4f4;
+            max-width: 80%;
+        }
+
+        .chatbox-messages .user {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chatbox-messages .bot {
+            background-color: #28a745;
+            color: white;
+            align-self: flex-start;
+        }
+
+        .chatbox .input-message {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .chatbox .send-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .chatbox .send-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: none;
+            background: rgba(0, 255, 0, 0.2);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-media-buttons {
+            margin-top: 20px;
+        }
+
+        .social-media-buttons a {
+            margin: 0 10px;
+            padding: 12px;
+            background-color: #3b5998;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .social-media-buttons a.twitter {
+            background-color: #1DA1F2;
+        }
+
+        .social-media-buttons a.linkedin {
+            background-color: #0077B5;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Registration Section -->
+    <div class="container" id="registration">
+        <h2>User Registration</h2>
+        <div class="input-container">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+        <div class="input-container">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+        <div class="input-container">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <button>Continue with Google</button>
+        <button onclick="sendVerificationCode()">Submit</button>
+    </div>
+
+    <!-- Email Verification Section -->
+    <div class="container" id="email-verification" style="display:none;">
+        <h2>Email Verification</h2>
+        <div class="input-container">
+            <label for="verification-code">Verification Code</label>
+            <input type="text" id="verification-code" placeholder="Enter the verification code">
+        </div>
+        <button onclick="verifyCode()">Verify</button>
+    </div>
+
+    <!-- Setup Organization -->
+    <div class="container" id="setup-organization" style="display:none;">
+        <h2>Setup Organization</h2>
+        <div class="input-container">
+            <label for="company-name">Company Name</label>
+            <input type="text" id="company-name" placeholder="Enter company name">
+        </div>
+        <div class="input-container">
+            <label for="company-url">Company Website URL</label>
+            <input type="url" id="company-url" placeholder="Enter company website URL">
+        </div>
+        <div class="input-container">
+            <label for="company-description">Company Description</label>
+            <textarea id="company-description" placeholder="Enter company description"></textarea>
+        </div>
+        <button onclick="fetchMetaDescription()">Fetch Meta Description</button>
+        <button onclick="nextStep('scraping-progress')">Next</button>
+    </div>
+
+    <!-- Scraping Progress -->
+    <div class="container" id="scraping-progress" style="display:none;">
+        <h2>Scraping Progress</h2>
+        <div class="scraping-progress">
+            <ul>
+                <li class="scraped">Home Page - Scraped</li>
+                <li class="pending">About Us - Pending</li>
+                <li class="scraped">Contact Us - Scraped</li>
+            </ul>
+        </div>
+        <button onclick="nextStep('chatbot-integration')">Next</button>
+    </div>
+
+    <!-- Chatbot Integration -->
+    <div class="container" id="chatbot-integration" style="display:none;">
+        <h2>Chatbot Integration & Testing</h2>
+        <button onclick="testChatbot()">Test Chatbot</button>
+        <button onclick="showIntegrationInstructions()">Integrate on Your Website</button>
+        <button onclick="nextStep('success-screen')">Next</button>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="container success-screen" id="success-screen">
+        <h2>Integration Successful!</h2>
+        <p>Congratulations, your chatbot integration was successful.</p>
+        <button onclick="startChatting()">Start Talking to Your Chatbot</button>
+        <button onclick="nextStep('admin-panel')">Explore Admin Panel</button>
+        <div class="social-media-buttons">
+            <a href="#">Share on Facebook</a>
+            <a href="#" class="twitter">Share on Twitter</a>
+            <a href="#" class="linkedin">Share on LinkedIn</a>
+        </div>
+    </div>
+
+    <!-- Chatbot Interface -->
+    <div class="chatbox" id="chatbox">
+        <div class="chatbox-header">Chat with Bot</div>
+        <div class="chatbox-messages" id="chatbox-messages"></div>
+        <input type="text" id="chat-input" class="input-message" placeholder="Type a message...">
+        <button class="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function nextStep(sectionId) {
+            document.querySelectorAll('.container').forEach(div => div.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Registration functions
+        function sendVerificationCode() {
+            alert("A verification code has been sent to your email.");
+            nextStep('email-verification');
+        }
+
+        function verifyCode() {
+            alert("Email verified successfully!");
+            nextStep('setup-organization');
+        }
+
+        function fetchMetaDescription() {
+            document.getElementById('company-description').value = "Sample meta description fetched.";
+        }
+
+        // Chatbot functions
+        function startChatting() {
+            document.getElementById('chatbox').style.display = 'block';
+            alert("You can now start chatting with your chatbot.");
+        }
+
+        function sendMessage() {
+            let userMessage = document.getElementById('chat-input').value;
+            let chatMessages = document.getElementById('chatbox-messages');
+
+            if (userMessage) {
+                chatMessages.innerHTML += `<div class="message user">${userMessage}</div>`;
+                document.getElementById('chat-input').value = '';
+
+                setTimeout(() => {
+                    chatMessages.innerHTML += `<div class="message bot">Bot: ${getBotResponse(userMessage)}</div>`;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        function getBotResponse(message) {
+            const responses = {
+                "hi": "Hello! How can I help you today?",
+                "hello": "Hi there! How can I assist you?",
+                "food": "Here's a list of food items: Pasta, Pizza, Curry, Salad, etc.",
+                "veg curry": "Here's a delicious Veg Curry recipe: [recipe details].",
+                "help": "I can assist with food recipes, company setup, and more!",
+                "default": "I'm not sure how to respond to that. Could you please clarify or ask about food, recipes, or other common queries?"
+            };
+
+            return responses[message.toLowerCase()] || responses["default"];
+        }
+
+        // Chatbot testing and integration functions
+        function testChatbot() {
+            alert("Opening chatbot preview on client's website.");
+        }
+
+        function showIntegrationInstructions() {
+            alert("Instructions to integrate chatbot have been mailed to your developer.");
+            nextStep('success-screen');
+        }
+    </script>
+</body>
+</html>
