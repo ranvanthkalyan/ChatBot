@@ -1,52 +1,33 @@
-Chatbot Setup UI
+Chatbot Setup UI: This project provides a user-friendly chatbot setup workflow with email verification, organization setup, and chatbot integration steps.
 
-This project provides a user-friendly chatbot setup workflow with email verification, organization setup, and chatbot integration steps.
+Features:-
+1. User Registration & Email Verification
+2. Organization Setup with Meta Description Fetching
+3. Web Scraping Progress Tracking
+4. Chatbot Integration & Testing
+5. Responsive UI with Animated Effects
 
-Features
+Installation & Running Locally:-
+Prerequisites:
+1. Node.js installed
+2. Git installed
 
-User Registration & Email Verification
+Steps to Run:-
+1. Clone the Repository:
+git clone https://github.com/ranvanthkalyan/chatbot-setup-ui.gitcd chatbot-setup-ui
 
-Organization Setup with Meta Description Fetching
-
-Web Scraping Progress Tracking
-
-Chatbot Integration & Testing
-
-Responsive UI with Animated Effects
-
-Installation & Running Locally
-
-Prerequisites
-
-Node.js installed
-
-Git installed
-
-Steps to Run
-
-Clone the Repository
-
-git clone https://github.com/yourusername/chatbot-setup-ui.git
-cd chatbot-setup-ui
-
-Install Dependencies (If using React/Next.js)
-
+2. Install Dependencies (If using React/Next.js):
 npm install  # or yarn install
 
-Run the Project Locally
-
+3. Run the Project Locally:
 npm start  # or yarn dev (for Next.js)
 
-Deploy the Code
-
+4. Deploy the Code:
 For React projects: Deploy using GitHub Pages
-
 For Next.js projects: Deploy using Vercel
 
-License
-
+License:-
 This project is open-source under the MIT License.
-
 
 How to Install & Run the Code Locally:
 1. Install Prerequisites:
